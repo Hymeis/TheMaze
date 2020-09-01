@@ -1,6 +1,8 @@
 
 public class Board {
 	public static final int DEFAULT = 1;
+	public static final int DESIGNING = 2;
+	public static final int SET = 3;
 	public static final int ROAD = 9;
 	public static final int WALL = 8;
 	public static final int INVALID = 0;
@@ -67,9 +69,14 @@ public class Board {
 		return (board[0].length + 1) / 2;
 	}
 	
+	public void setGridValue(int width, int length, int val) {
+		board[width*2-1][length*2-1] = val;
+	}
+	
 	public int getGridValue(int width, int length) {
 		return board[width*2-1][length*2-1];
 	}
+
 	
 	
 }
