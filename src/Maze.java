@@ -1,6 +1,8 @@
 
 public class Maze extends Board{
-
+	
+	private Board board;
+	
 	public Maze() {
 		super();
 	}
@@ -8,8 +10,12 @@ public class Maze extends Board{
 	public Maze(int width, int length) {
 		super(width,length);
 	}
-	
-	public void mazeGenerator(Maze maze) {
+	/**
+	 * @pre The board is empty.
+	 * Randomly generate a maze.
+	 * @param maze The maze to be generated.
+	 */
+	public void generateMaze() {
 		
 	}
 
