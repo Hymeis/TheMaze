@@ -1,11 +1,20 @@
 
 public class Board {
+	//gridSignal
 	public static final int DEFAULT = 1;
 	public static final int GENERATING = 2;
 	public static final int SET = 3;
+	//gapSignal
 	public static final int PATH = 9;
 	public static final int WALL = 8;
+	//invalid. No algorithms should ever use this other than checking exceptions.
 	public static final int INVALID = 0;
+	//positions
+	public static final int UP = 10;
+	public static final int LEFT = 11;
+	public static final int DOWN = 12;
+	public static final int RIGHT = 13;
+	
 	private int[][] board;
 	
 	public Board() {
@@ -73,21 +82,37 @@ public class Board {
 		return (board[0].length + 1) / 2;
 	}
 	
-	public void setGridValue(int width, int length, int val) {
-		board[width*2-1][length*2-1] = val;
+	public void setGridValue(int width, int length, int gridSignal) {
+		board[width*2-1][length*2-1] = gridSignal;
 	}
 	
 	public int getGridValue(int width, int length) {
 		return board[width*2-1][length*2-1];
 	}
 
-	public void setGapValue() { //Unfinished. 不是不能编，在想怎么优化
-		
+	public void setGapValue(int width, int length, int direction, int gapSignal) { 
+		if (direction == UP && width != 0) {
+			board[width*2-2][length*2-1] = gapSignal;
+		} else if (direction == LEFT && length != 0) {
+			board[width*2-1][length*2-2] = gapSignal;
+		} else if (direction == DOWN && width != board.length - 1) {
+			board[width*2][length*2-1] = gapSignal;
+		} else if (direction == RIGHT && length != board[0].length - 1){
+			board[width*2-1][length*2] = gapSignal;
+		}
 	}
 	
-	public int getGapValue() {
-		
-		return 0;
+	public int getGapValue(int width, int length, int direction) {
+		if (direction == UP && width != 0) {
+			return board[width*2-2][length*2-1];
+		} else if (direction == LEFT && length != 0) {
+			return board[width*2-1][length*2-2];
+		} else if (direction == DOWN && width != board.length - 1) {
+			return board[width*2][length*2-1];
+		} else if (direction == RIGHT && length != board[0].length - 1){
+			return board[width*2-1][length*2];
+		}
+		return INVALID; // OutOfBound
 	}
 	
 }
