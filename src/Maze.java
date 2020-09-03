@@ -16,7 +16,7 @@ public class Maze extends Board{
 	 * @param maze The maze to be generated.
 	 */
 	public void generateMaze() {
-		
+		int randomDirection = 10 + (int)(4*Math.random());
 	}
 
 }
