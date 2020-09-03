@@ -87,7 +87,10 @@ public class Board {
 	}
 	
 	public int getGridValue(int width, int length) {
-		return board[width*2-1][length*2-1];
+		if (width >= 0 && width < board.length && length >=0 && length < board[0].length)
+			return board[width*2-1][length*2-1];
+		else
+			return INVALID; //OutofBound
 	}
 
 	public void setGapValue(int width, int length, int direction, int gapSignal) { 
