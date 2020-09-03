@@ -87,7 +87,7 @@ public class Board {
 	}
 	
 	public int getGridValue(int width, int length) {
-		if (width >= 0 && width < board.length && length >=0 && length < board[0].length)
+		if (width >= 0 && width*2-1 < board.length && length >=0 && length*2-1 < board[0].length)
 			return board[width*2-1][length*2-1];
 		else
 			return INVALID; //OutofBound
