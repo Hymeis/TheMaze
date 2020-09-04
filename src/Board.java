@@ -83,12 +83,19 @@ public class Board {
 	}
 	
 	public void setGridValue(int width, int length, int gridSignal) {
-		board[width*2-1][length*2-1] = gridSignal;
+		if(width >= 0 && length >= 0 && width <= board.length - 1 && length <= board[0].length - 1)
+		{
+			board[width][length] = gridSignal;
+			System.out.print("x: " + width + " y: " + length + " grid signal: " + board[width][length]);
+			System.out.println();
+		}
+		
+		
 	}
 	
 	public int getGridValue(int width, int length) {
-		if (width >= 0 && width*2-1 < board.length && length >=0 && length*2-1 < board[0].length)
-			return board[width*2-1][length*2-1];
+		if (width >= 0 && width < board.length && length >=0 && length< board[0].length)
+			return board[width][length];
 		else
 			return INVALID; //OutofBound
 	}
