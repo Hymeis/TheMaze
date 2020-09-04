@@ -83,37 +83,53 @@ public class Board {
 	}
 	
 	public void setGridValue(int width, int length, int gridSignal) {
-		board[width*2-1][length*2-1] = gridSignal;
+		board[width*2][length*2] = gridSignal;
 	}
 	
 	public int getGridValue(int width, int length) {
-		if (width >= 0 && width*2-1 < board.length && length >=0 && length*2-1 < board[0].length)
-			return board[width*2-1][length*2-1];
+		if (width >= 0 && width*2 < board.length && length >=0 && length*2 < board[0].length)
+			return board[width*2][length*2];
 		else
 			return INVALID; //OutofBound
+	}
+	
+	public int getGridValue(int width, int length, int direction) {
+		if (getGridValue(width,length) == INVALID) {
+			return INVALID;
+		}
+		if (direction == UP && getGridValue(width-1,length) != INVALID) {
+			return board[width*2-2][length*2];
+		} else if (direction == LEFT && getGridValue(width,length-1) != INVALID) {
+			return board[width*2][length*2-2];
+		} else if (direction == DOWN && getGridValue(width+1,length) != INVALID) {
+			return board[width*2+2][length*2];
+		} else if (direction == RIGHT && getGridValue(width+1,length) != INVALID) {
+			return board[width*2][length*2+2];
+		}
+		return INVALID; // OutofBound
 	}
 
 	public void setGapValue(int width, int length, int direction, int gapSignal) { 
 		if (direction == UP && width != 0) {
-			board[width*2-2][length*2-1] = gapSignal;
-		} else if (direction == LEFT && length != 0) {
-			board[width*2-1][length*2-2] = gapSignal;
-		} else if (direction == DOWN && width != board.length - 1) {
-			board[width*2][length*2-1] = gapSignal;
-		} else if (direction == RIGHT && length != board[0].length - 1){
 			board[width*2-1][length*2] = gapSignal;
+		} else if (direction == LEFT && length != 0) {
+			board[width*2][length*2-1] = gapSignal;
+		} else if (direction == DOWN && width != board.length - 1) {
+			board[width*2+1][length*2] = gapSignal;
+		} else if (direction == RIGHT && length != board[0].length - 1){
+			board[width*2][length*2+1] = gapSignal;
 		}
 	}
 	
 	public int getGapValue(int width, int length, int direction) {
 		if (direction == UP && width != 0) {
-			return board[width*2-2][length*2-1];
-		} else if (direction == LEFT && length != 0) {
-			return board[width*2-1][length*2-2];
-		} else if (direction == DOWN && width != board.length - 1) {
-			return board[width*2][length*2-1];
-		} else if (direction == RIGHT && length != board[0].length - 1){
 			return board[width*2-1][length*2];
+		} else if (direction == LEFT && length != 0) {
+			return board[width*2][length*2-1];
+		} else if (direction == DOWN && width != board.length - 1) {
+			return board[width*2+1][length*2];
+		} else if (direction == RIGHT && length != board[0].length - 1){
+			return board[width*2][length*2+1];
 		}
 		return INVALID; // OutOfBound
 	}

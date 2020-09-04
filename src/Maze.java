@@ -9,7 +9,7 @@ public class Maze extends Board{
 		super(width,length);
 	}
 	/**
-	 * @pre The board is empty.
+	 * @pre The board is initialized.
 	 * Randomly generate a maze.
 	 * @param maze The maze to be generated.
 	 */
@@ -24,22 +24,30 @@ public class Maze extends Board{
 	
 	private void nextStep(int width, int length) {
 		int randomDirection = UP + (int)(4*Math.random());
+		int nextDirection = INVALID;
+		while (hasDefaultAround(width,length) && getGridValue(width,length,randomDirection) != DEFAULT) {
+			if (getGridValue(width,length,randomDirection) == DEFAULT) {
+				nextDirection = randomDirection;
+				break;
+			} else {
+				randomDirection = UP + (int)(4*Math.random());
+			}
+		}
 		setGridValue(width,length,GENERATING);
-		while (hasDefaultAround(width, length)) {
-			if (randomDirection == UP && getGridValue(width-1,length) == DEFAULT) {
+		while (nextDirection != INVALID) {
+			if (nextDirection == UP && getGridValue(width-1,length) == DEFAULT) {
 				nextStep(width-1,length);
-			} else if (randomDirection == LEFT && getGridValue(width,length-1) == DEFAULT) {
+			} else if (nextDirection == LEFT && getGridValue(width,length-1) == DEFAULT) {
 				nextStep(width,length-1);
-			} else if (randomDirection == DOWN && getGridValue(width+1,length) == DEFAULT) {
+			} else if (nextDirection == DOWN && getGridValue(width+1,length) == DEFAULT) {
 				nextStep(width+1,length);
-			} else if (randomDirection == RIGHT && getGridValue(width+1,length) == DEFAULT) {
+			} else if (nextDirection == RIGHT && getGridValue(width+1,length) == DEFAULT) {
 				nextStep(width,length+1);
 			}
 			// If none of the conditions is triggered, that means the grid @ randomized direction does not have default value
-			/* Set up walls to finalize the maze Below */
-			
 		}
-
+		/* Set up walls to finalize the maze below */
+		
 	}
 
 }
