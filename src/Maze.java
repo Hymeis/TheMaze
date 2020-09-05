@@ -23,7 +23,7 @@ public class Maze extends Board{
 	 * @param length x-axis of the grid
 	 * @return true if there are default grids around, false otherwise.
 	 */
-	private boolean hasDefaultAround(int width, int length) {
+	public boolean hasDefaultAround(int width, int length) {
 		return getGridValue(width-1,length) == DEFAULT || getGridValue(width+1,length) == DEFAULT ||
 			   getGridValue(width,length-1) == DEFAULT || getGridValue(width,length+1) == DEFAULT ;
 	}
@@ -36,31 +36,38 @@ public class Maze extends Board{
 		int randomDirection = UP + (int)(4*Math.random());
 		int nextDirection = INVALID;
 		setGridValue(width,length,GENERATING);
+		System.out.println("RandomDirection: " + randomDirection);
 		while (hasDefaultAround(width,length)) {
 			if (getGridValue(width,length,randomDirection) == DEFAULT) {
 				nextDirection = randomDirection;
-				if (nextDirection == UP && getGridValue(width-1,length) == DEFAULT) {
+				if (nextDirection == UP) {//&& getGridValue(width-1,length) == DEFAULT) {
 					nextStep(width-1,length);
-				} else if (nextDirection == LEFT && getGridValue(width,length-1) == DEFAULT) {
+				} else if (nextDirection == LEFT) { //&& getGridValue(width,length-1) == DEFAULT) {
 					nextStep(width,length-1);
-				} else if (nextDirection == DOWN && getGridValue(width+1,length) == DEFAULT) {
+				} else if (nextDirection == DOWN) { //&& getGridValue(width+1,length) == DEFAULT) {
 					nextStep(width+1,length);
-				} else if (nextDirection == RIGHT && getGridValue(width+1,length) == DEFAULT) {
+				} else if (nextDirection == RIGHT) { //&& getGridValue(width,length+1) == DEFAULT) {
 					nextStep(width,length+1);
 				}
 			} else {
 				randomDirection = UP + (int)(4*Math.random());
+				System.out.println("Direction: " + randomDirection);
 			}
 		}
 		/* Set up walls to finalize the maze below */
-		setGapValue(width,length,UP,WALL);
-		setGapValue(width,length,LEFT,WALL);
-		setGapValue(width,length,DOWN,WALL);
-		setGapValue(width,length,RIGHT,WALL);
+		//setGapValue(width,length,UP,WALL);
+		//setGapValue(width,length,LEFT,WALL);
+		//setGapValue(width,length,DOWN,WALL);
+		//setGapValue(width,length,RIGHT,WALL);
 		if (nextDirection != INVALID) {
 			setGapValue(width,length,nextDirection,PATH);
 		}
+		//printMaze();
 		setGridValue(width,length,SET);
+	}
+	
+	public void printMaze() {
+		super.printBoard();
 	}
 
 }
