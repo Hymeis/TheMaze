@@ -17,37 +17,50 @@ public class Maze extends Board{
 		nextStep(0,0);
 	}
 	
+	/**
+	 * Check whether the targeted grid has default grids around.
+	 * @param width y-axis of the grid
+	 * @param length x-axis of the grid
+	 * @return true if there are default grids around, false otherwise.
+	 */
 	private boolean hasDefaultAround(int width, int length) {
 		return getGridValue(width-1,length) == DEFAULT || getGridValue(width+1,length) == DEFAULT ||
 			   getGridValue(width,length-1) == DEFAULT || getGridValue(width,length+1) == DEFAULT ;
 	}
-	
+	/**
+	 * It is the main recursive algorithm to generate the maze. It generates walls of the maze.
+	 * @param width y-axis of the grid
+	 * @param length x-axis of the grid
+	 */
 	private void nextStep(int width, int length) {
 		int randomDirection = UP + (int)(4*Math.random());
 		int nextDirection = INVALID;
-		while (hasDefaultAround(width,length) && getGridValue(width,length,randomDirection) != DEFAULT) {
+		setGridValue(width,length,GENERATING);
+		while (hasDefaultAround(width,length)) {
 			if (getGridValue(width,length,randomDirection) == DEFAULT) {
 				nextDirection = randomDirection;
-				break;
+				if (nextDirection == UP && getGridValue(width-1,length) == DEFAULT) {
+					nextStep(width-1,length);
+				} else if (nextDirection == LEFT && getGridValue(width,length-1) == DEFAULT) {
+					nextStep(width,length-1);
+				} else if (nextDirection == DOWN && getGridValue(width+1,length) == DEFAULT) {
+					nextStep(width+1,length);
+				} else if (nextDirection == RIGHT && getGridValue(width+1,length) == DEFAULT) {
+					nextStep(width,length+1);
+				}
 			} else {
 				randomDirection = UP + (int)(4*Math.random());
 			}
 		}
-		setGridValue(width,length,GENERATING);
-		while (nextDirection != INVALID) {
-			if (nextDirection == UP && getGridValue(width-1,length) == DEFAULT) {
-				nextStep(width-1,length);
-			} else if (nextDirection == LEFT && getGridValue(width,length-1) == DEFAULT) {
-				nextStep(width,length-1);
-			} else if (nextDirection == DOWN && getGridValue(width+1,length) == DEFAULT) {
-				nextStep(width+1,length);
-			} else if (nextDirection == RIGHT && getGridValue(width+1,length) == DEFAULT) {
-				nextStep(width,length+1);
-			}
-			// If none of the conditions is triggered, that means the grid @ randomized direction does not have default value
-		}
 		/* Set up walls to finalize the maze below */
-		
+		setGapValue(width,length,UP,WALL);
+		setGapValue(width,length,LEFT,WALL);
+		setGapValue(width,length,DOWN,WALL);
+		setGapValue(width,length,RIGHT,WALL);
+		if (nextDirection != INVALID) {
+			setGapValue(width,length,nextDirection,PATH);
+		}
+		setGridValue(width,length,SET);
 	}
 
 }

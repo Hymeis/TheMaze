@@ -81,7 +81,12 @@ public class Board {
 	public int getGridLength() {
 		return (board[0].length + 1) / 2;
 	}
-	
+	/**
+	 * Change the grid signal.
+	 * @param width y-axis of the grid
+	 * @param length x-axis of the grid
+	 * @param gridSignal there are three grid signals: DEFAULT, GENERATING, and SET.
+	 */
 	public void setGridValue(int width, int length, int gridSignal) {
 		board[width*2][length*2] = gridSignal;
 	}
