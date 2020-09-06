@@ -40,29 +40,24 @@ public class Maze extends Board{
 		while (hasDefaultAround(width,length)) {
 			if (getGridValue(width,length,randomDirection) == DEFAULT) {
 				nextDirection = randomDirection;
-				if (nextDirection == UP) {//&& getGridValue(width-1,length) == DEFAULT) {
+				if (nextDirection == UP) {
 					nextStep(width-1,length);
-				} else if (nextDirection == LEFT) { //&& getGridValue(width,length-1) == DEFAULT) {
+				} else if (nextDirection == LEFT) {
 					nextStep(width,length-1);
-				} else if (nextDirection == DOWN) { //&& getGridValue(width+1,length) == DEFAULT) {
+				} else if (nextDirection == DOWN) {
 					nextStep(width+1,length);
-				} else if (nextDirection == RIGHT) { //&& getGridValue(width,length+1) == DEFAULT) {
+				} else if (nextDirection == RIGHT) {
 					nextStep(width,length+1);
 				}
 			} else {
 				randomDirection = UP + (int)(4*Math.random());
 				System.out.println("Direction: " + randomDirection);
 			}
+			/* Set up walls to finalize the maze below */
+			if (nextDirection != INVALID) {
+				setGapValue(width,length,nextDirection,PATH);
+			}
 		}
-		/* Set up walls to finalize the maze below */
-		//setGapValue(width,length,UP,WALL);
-		//setGapValue(width,length,LEFT,WALL);
-		//setGapValue(width,length,DOWN,WALL);
-		//setGapValue(width,length,RIGHT,WALL);
-		if (nextDirection != INVALID) {
-			setGapValue(width,length,nextDirection,PATH);
-		}
-		//printMaze();
 		setGridValue(width,length,SET);
 	}
 	
