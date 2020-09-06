@@ -6,6 +6,7 @@ public class tester {
 		Maze a = new Maze(10,10);
 		a.generateMaze();
 		a.printMaze();
+		a.solveMaze();
 	}
 
 }

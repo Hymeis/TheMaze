@@ -4,6 +4,8 @@ public class Board {
 	public static final int DEFAULT = 1;
 	public static final int GENERATING = 2;
 	public static final int SET = 3;
+	public static final int CHECKED = 4;
+	public static final int ANSWER = 5;
 	//gapSignal
 	public static final int PATH = 9;
 	public static final int WALL = 8;
@@ -55,6 +57,12 @@ public class Board {
 				case(SET):
 					System.out.print("1");
 				break;
+				case(CHECKED):
+					System.out.print("C");
+				break;
+				case(ANSWER):
+					System.out.print("A");
+				break;
 				case(PATH):
 					System.out.print("1");
 				break;
@@ -77,24 +85,7 @@ public class Board {
 	public void printGrid() { // it prints out grids only.
 		for (int i = 0; i < board.length; i+= 2) {
 			for (int j =0; j < board[0].length; j+= 2) {
-				switch(board[i][j]) {
-					case(GENERATING):
-						System.out.print("R");
-					break;
-					case(SET):
-						System.out.print("R");
-					break;
-					case(PATH):
-						System.out.print("R");
-					break;
-					case(WALL):
-						System.out.print("X");
-					break;
-					case(INVALID):
-						System.out.print(" ");
-					break;
-				}
-				System.out.print(" ");
+				System.out.print(board[i][j] + " ");
 			}
 			System.out.println();
 		}
@@ -109,11 +100,11 @@ public class Board {
 	}
 	
 	public int getGridWidth() {
-		return (board.length + 1) / 2;
+		return (board.length) / 2;
 	}
 	
 	public int getGridLength() {
-		return (board[0].length + 1) / 2;
+		return (board[0].length) / 2;
 	}
 	/**
 	 * Change the grid signal.
@@ -154,8 +145,6 @@ public class Board {
 	}
 
 	public void setGapValue(int width, int length, int direction, int gapSignal) { 
-		//if (width >= 0 && width*2 < board.length && length >=0 && length*2 < board[0].length)
-		//{
 			if (direction == UP && width != 0) {
 				board[width*2-1][length*2] = gapSignal;
 			} else if (direction == LEFT && length != 0) {
@@ -165,7 +154,6 @@ public class Board {
 			} else if (direction == RIGHT && length != (board[0].length) / 2){
 				board[width*2][length*2+1] = gapSignal;
 			}
-		//}
 	}
 	
 	public int getGapValue(int width, int length, int direction) {

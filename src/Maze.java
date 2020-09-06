@@ -61,6 +61,46 @@ public class Maze extends Board{
 		setGridValue(width,length,SET);
 	}
 	
+	private boolean hasAnotherWay(int width, int length) {
+		return getGridValue(width-1,length) == SET && getGapValue(width,length,UP) == PATH   || 
+			   getGridValue(width+1,length) == SET && getGapValue(width,length,DOWN) == PATH ||
+			   getGridValue(width,length-1) == SET && getGapValue(width,length,LEFT) == PATH ||
+			   getGridValue(width,length+1) == SET && getGapValue(width,length,RIGHT) == PATH;
+	}
+	
+	public void solveMaze() {
+		findDestination(0,0);
+		printMaze();
+	}
+	
+	private void findDestination(int width, int length) {
+		int randomDirection = UP + (int)(4*Math.random());
+		int nextDirection = INVALID;
+		setGridValue(width,length,ANSWER);
+		// Base Case
+		if (width == getGridWidth() && length == getGridLength()) {
+			
+			return;
+		}
+		while(hasAnotherWay(width,length)) {
+			if (getGridValue(width,length,randomDirection) == SET && getGapValue(width,length,randomDirection) == PATH) {
+				nextDirection = randomDirection;
+				if (nextDirection == UP) {
+					findDestination(width-1,length);
+				} else if (nextDirection == LEFT) {
+					findDestination(width,length-1);
+				} else if (nextDirection == DOWN) {
+					findDestination(width+1,length);
+				} else if (nextDirection == RIGHT) {
+					findDestination(width,length+1);
+				}
+			} else {
+				randomDirection = UP + (int)(4*Math.random());
+			}
+		}
+		setGridValue(width,length,CHECKED);
+	}
+	
 	public void printMaze() {
 		super.printBoard();
 	}
