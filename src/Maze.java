@@ -78,11 +78,8 @@ public class Maze extends Board{
 		int nextDirection = INVALID;
 		setGridValue(width,length,ANSWER);
 		// Base Case
-		if (width == getGridWidth() && length == getGridLength()) {
-			
-			return;
-		}
-		while(hasAnotherWay(width,length)) {
+
+		while(hasAnotherWay(width,length) && getGridValue(getGridWidth(),getGridLength()) != ANSWER) {
 			if (getGridValue(width,length,randomDirection) == SET && getGapValue(width,length,randomDirection) == PATH) {
 				nextDirection = randomDirection;
 				if (nextDirection == UP) {
@@ -98,7 +95,10 @@ public class Maze extends Board{
 				randomDirection = UP + (int)(4*Math.random());
 			}
 		}
-		setGridValue(width,length,CHECKED);
+		if (getGridValue(getGridWidth(),getGridLength()) != ANSWER)
+			setGridValue(width,length,CHECKED);
+		else
+			return;
 	}
 	
 	public void printMaze() {
